@@ -1,5 +1,4 @@
-const mongodb = require("mongodb");
-const MongoClient = mongodb.MongoClient;
+const { MongoClient, ObjectID } = require("mongodb");
 
 const connectURL = "mongodb://127.0.0.1:27017";
 const databaseName = "task-manager-app";
@@ -12,61 +11,38 @@ MongoClient.connect(
       return console.log("unable to connect to database");
     }
     const db = client.db(databaseName);
+    // to find by id, wrap id string in new ObjectID()
+    //     db.collection("users").findOne({ name: "bleh" }, (error, user) => {
+    //       if (!user) {
+    //         return console.log("cant find user");
+    //       }
 
-    // db.collection("users").insertOne(
-    //   {
-    //     name: "Michael",
-    //     age: 25
-    //   },
-    //   (error, result) => {
-    //     if (error) {
-    //       return console.log("unable to insert user");
-    //     }
+    //       console.log(user);
+    //     });
 
-    //     console.log(result.ops);
-    //   }
-    // );
-    // db.collection("users").insertMany(
-    //   [
-    //     {
-    //       name: "Leo",
-    //       age: 29
-    //     },
-    //     {
-    //       name: "Sana",
-    //       age: 23
-    //     }
-    //   ],
-    //   (error, result) => {
-    //     if (error) {
-    //       return console.log("unable to insert users");
-    //     }
+    //     db.collection("users")
+    //       .find({ age: 25 })
+    //       .toArray((error, users) => {
+    //         console.log(users);
+    //       });
 
-    //     console.log(result.ops);
-    //   }
-    // );
+    //     db.collection("users")
+    //       .find({ age: 25 })
+    //       .count((error, count) => {
+    //         console.log(count);
+    //       });
 
-    db.collection("tasks").insertMany(
-      [
-        {
-          description: "did homework",
-          completed: true
-        },
-        {
-          description: "watched anime",
-          completed: false
-        },
-        {
-          description: "went to bed",
-          completed: true
+    db.collection("tasks").findOne(
+      {
+        hint: {
+          _id: -1
         }
-      ],
-      (error, result) => {
-        if (error) {
-          return console.log("didn't work!!!");
+      },
+      (error, user) => {
+        if (!user) {
+          return console.log("cannot find user");
         }
-
-        console.log(result.ops);
+        console.log(user);
       }
     );
   }
