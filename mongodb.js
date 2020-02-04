@@ -10,6 +10,7 @@ MongoClient.connect(
     if (error) {
       return console.log("unable to connect to database");
     }
+    // use this file below this line as a playground with mongodb
     const db = client.db(databaseName);
     // to find by id, wrap id string in new ObjectID()
     //     db.collection("users").findOne({ name: "bleh" }, (error, user) => {
