@@ -13,38 +13,13 @@ MongoClient.connect(
     // use this file below this line as a playground with mongodb
     const db = client.db(databaseName);
     // to find by id, wrap id string in new ObjectID()
-    //     db.collection("users").findOne({ name: "bleh" }, (error, user) => {
-    //       if (!user) {
-    //         return console.log("cant find user");
-    //       }
+    //
 
-    //       console.log(user);
-    //     });
-
-    //     db.collection("users")
-    //       .find({ age: 25 })
-    //       .toArray((error, users) => {
-    //         console.log(users);
-    //       });
-
-    //     db.collection("users")
-    //       .find({ age: 25 })
-    //       .count((error, count) => {
-    //         console.log(count);
-    //       });
-
-    db.collection("tasks").findOne(
-      {
-        hint: {
-          _id: -1
-        }
-      },
-      (error, user) => {
-        if (!user) {
-          return console.log("cannot find user");
-        }
-        console.log(user);
-      }
-    );
+    db.collection("users")
+      .deleteMany({ age: 26 })
+      .then(result => {
+        console.log(result);
+      })
+      .catch(error => console.log(error));
   }
 );
