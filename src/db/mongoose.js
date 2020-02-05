@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const validator = require("validator");
 
 mongoose.connect("mongodb://127.0.0.1:27017/task-manager-api", {
   useNewUrlParser: true,
@@ -6,14 +7,28 @@ mongoose.connect("mongodb://127.0.0.1:27017/task-manager-api", {
   useUnifiedTopology: true
 });
 
-// const User = mongoose.model("User", {
-//   name: {
-//     type: String
-//   },
-//   age: {
-//     type: Number
-//   }
-// });
+const User = mongoose.model("User", {
+  name: {
+    type: String
+  },
+  age: {
+    type: Number,
+    validate(value) {
+      if (value < 0) {
+        throw new Error("Age must be a positive number");
+      }
+    }
+  },
+  email: {
+    type: String,
+    required: true,
+    validate(value) {
+      if (!validator.isEmail(value)) {
+        throw new Error("email is invalid");
+      }
+    }
+  }
+});
 
 // const me = new User({
 //   name: "Michael",
@@ -30,7 +45,8 @@ mongoose.connect("mongodb://127.0.0.1:27017/task-manager-api", {
 
 const Task = mongoose.model("Task", {
   description: {
-    type: String
+    type: String,
+    required: true
   },
   completed: {
     type: Boolean
