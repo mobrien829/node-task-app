@@ -1,7 +1,7 @@
 const express = require("express");
 const router = new express.Router();
 const User = require("../models/user");
-
+// new user
 router.post("/users", async (req, res) => {
   const user = new User(req.body);
 
@@ -12,7 +12,7 @@ router.post("/users", async (req, res) => {
     res.status(400).send(error);
   }
 });
-
+// all users
 router.get("/users", async (req, res) => {
   try {
     const users = await User.find({});
@@ -21,7 +21,7 @@ router.get("/users", async (req, res) => {
     res.status(500).send();
   }
 });
-
+// read user
 router.get("/users/:id", async (req, res) => {
   const _id = req.params.id;
   try {
@@ -34,7 +34,7 @@ router.get("/users/:id", async (req, res) => {
     res.status(500).send();
   }
 });
-
+// update user
 router.patch("/users/:id", async (req, res) => {
   const _id = req.params.id;
   const updates = Object.keys(req.body);
@@ -58,7 +58,7 @@ router.patch("/users/:id", async (req, res) => {
     res.status(400).send(error);
   }
 });
-
+// login user
 router.post("/users/login", async (req, res) => {
   try {
     const user = await User.findByCredentials(
@@ -70,7 +70,7 @@ router.post("/users/login", async (req, res) => {
     res.status(400).send();
   }
 });
-
+// delete user
 router.delete("/users/:id", async (req, res) => {
   const _id = req.params.id;
 
