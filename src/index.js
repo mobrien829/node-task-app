@@ -7,6 +7,19 @@ const taskRouter = require("./routers/task");
 const app = express();
 const port = process.env.PORT || 3000;
 
+// app.use((req, res, next) => {
+//   console.log(req.method);
+//   if (req.method === "GET") {
+//     res.send("get requests r disable");
+//   }
+
+//   next();
+// });
+
+app.use((req, res, next) => {
+  res.status(503).send("server is down lel try again later");
+});
+
 app.use(express.json());
 app.use(userRouter);
 app.use(taskRouter);
