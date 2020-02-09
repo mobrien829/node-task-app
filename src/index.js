@@ -16,10 +16,6 @@ const port = process.env.PORT || 3000;
 //   next();
 // });
 
-app.use((req, res, next) => {
-  res.status(503).send("server is down lel try again later");
-});
-
 app.use(express.json());
 app.use(userRouter);
 app.use(taskRouter);
