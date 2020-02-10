@@ -16,13 +16,9 @@ router.post("/users", async (req, res) => {
   }
 });
 // all users
-router.get("/users", auth, async (req, res) => {
-  try {
-    const users = await User.find({});
-    res.status(200).send(users);
-  } catch (error) {
-    res.status(500).send();
-  }
+router.get("/users/me", auth, async (req, res) => {
+  console.log(req);
+  res.send(req.user);
 });
 // read user
 router.get("/users/:id", async (req, res) => {
