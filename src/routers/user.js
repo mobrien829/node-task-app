@@ -19,6 +19,7 @@ router.post("/users", async (req, res) => {
 router.get("/users/me", auth, async (req, res) => {
   console.log(req);
   res.send(req.user);
+  //   this allows for auth only
 });
 // read user
 router.get("/users/:id", async (req, res) => {
