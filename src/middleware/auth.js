@@ -20,7 +20,6 @@ const auth = async (req, res, next) => {
   } catch (error) {
     res.status(401).send({ error: "Please authenticate" });
   }
-  console.log("im here lel in the auth.js file");
   next();
 };
 
