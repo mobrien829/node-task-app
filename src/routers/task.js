@@ -2,6 +2,7 @@ const express = require("express");
 const router = new express.Router();
 const auth = require("../middleware/auth");
 const Task = require("../models/task");
+const multer = require("multer");
 
 // Get tasks
 // limit and skip - pagination
@@ -91,6 +92,16 @@ router.patch("/tasks/:id", auth, async (req, res) => {
     res.status(400).send(error);
   }
 });
+
+// upload for user
+const upload = multer({
+  dest: "avatars"
+});
+router.post(
+  "/users/me/avatar",
+  upload.single("avatar"),
+  async (req, res) => {}
+);
 
 router.delete("/tasks/:id", auth, async (req, res) => {
   const _id = req.params.id;
