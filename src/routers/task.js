@@ -95,7 +95,16 @@ router.patch("/tasks/:id", auth, async (req, res) => {
 
 // upload for user
 const upload = multer({
-  dest: "avatars"
+  dest: "avatars",
+  limits: {
+    fileSize: 1000000
+  },
+  fileFilter(req, file, cb) {
+    if (!file.originalname.match(/\.(jpg|png|jpeg)$/)) {
+      return new Error("please use an image (.jpg, .png, or .jpeg");
+    }
+    cb(undefined, true);
+  }
 });
 router.post("/users/me/avatar", upload.single("avatar"), async (req, res) => {
   res.send();
