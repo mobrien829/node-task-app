@@ -53,6 +53,7 @@ router.get("/tasks/:id", auth, async (req, res) => {
   }
 });
 
+// create a task (task post)
 router.post("/tasks", auth, async (req, res) => {
   const task = new Task({
     ...req.body,
@@ -66,6 +67,7 @@ router.post("/tasks", auth, async (req, res) => {
   }
 });
 
+// patch task
 router.patch("/tasks/:id", auth, async (req, res) => {
   const _id = req.params.id;
   const allowedUpdates = ["description", "completed"];
@@ -105,6 +107,8 @@ const upload = multer({
     cb(undefined, true);
   }
 });
+
+// post avatar
 router.post(
   "/users/me/avatar",
   auth,
@@ -119,12 +123,14 @@ router.post(
   }
 );
 
+// delete avatar
 router.delete("/users/me/avatar", auth, async (req, res) => {
   req.user.avatar = undefined;
   await req.user.save();
   res.send();
 });
 
+// read avatar picture
 router.get("/users/:id/avatar", async (req, res) => {
   try {
     const user = await User.findByID(req.params.id);
@@ -132,11 +138,15 @@ router.get("/users/:id/avatar", async (req, res) => {
     if (!user || !user.avatar) {
       throw new Error();
     }
+
+    res.set("Content-Type", "image/jpg");
+    res.send(user.avatar);
   } catch (error) {
     res.status(404).send();
   }
 });
 
+// delete a task
 router.delete("/tasks/:id", auth, async (req, res) => {
   const _id = req.params.id;
 
