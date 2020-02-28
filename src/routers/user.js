@@ -2,6 +2,20 @@ const express = require("express");
 const router = new express.Router();
 const User = require("../models/user");
 const auth = require("../middleware/auth.js");
+const multer = require("multer");
+
+const upload = multer({
+  limits: {
+    fileSize: 1000000
+  },
+  fileFilter(req, file, cb) {
+    if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
+      return cb(new Error("file must be an image"));
+    }
+
+    cb(undefined, true);
+  }
+});
 
 // new user
 router.post("/users", async (req, res) => {
@@ -67,6 +81,28 @@ router.post("/users/logout", auth, async (req, res) => {
   } catch (error) {
     res.status(500).send();
   }
+});
+
+// upload for user
+router.post(
+  "/users/me/avatar",
+  auth,
+  upload.single("avatar"),
+  async (req, res) => {
+    req.user.avatar = req.file.buffer;
+    await req.user.save();
+    res.send();
+  },
+  (error, req, res, next) => {
+    res.status(400).send({ error: error.message });
+  }
+);
+
+// delete user's avatar
+router.delete("/users/me/avatar", auth, async (req, res) => {
+  req.user.avatar = undefined;
+  await req.user.save();
+  res.send();
 });
 
 // logout all of a user's sessions

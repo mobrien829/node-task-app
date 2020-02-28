@@ -93,16 +93,6 @@ router.patch("/tasks/:id", auth, async (req, res) => {
   }
 });
 
-// upload for user
-const upload = multer({
-  dest: "avatars"
-});
-router.post(
-  "/users/me/avatar",
-  upload.single("avatar"),
-  async (req, res) => {}
-);
-
 router.delete("/tasks/:id", auth, async (req, res) => {
   const _id = req.params.id;
 
