@@ -43,7 +43,7 @@ router.patch("/users/me", auth, async (req, res) => {
   const isValidOperation = updates.every(update => {
     return allowedUpdates.includes(update);
   });
-
+  // test for permitted update fields
   if (!isValidOperation) {
     return res.status(400).send({ error: "invalid update" });
   }
