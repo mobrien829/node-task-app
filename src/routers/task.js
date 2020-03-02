@@ -95,61 +95,6 @@ router.patch("/tasks/:id", auth, async (req, res) => {
   }
 });
 
-<<<<<<< HEAD
-=======
-// upload for user
-const upload = multer({
-  limits: {
-    fileSize: 1000000
-  },
-  fileFilter(req, file, cb) {
-    if (!file.originalname.match(/\.(jpg|png|jpeg)$/)) {
-      return cb(new Error("please use an image (.jpg, .png, or .jpeg)"));
-    }
-    cb(undefined, true);
-  }
-});
-
-// post avatar
-router.post(
-  "/users/me/avatar",
-  auth,
-  upload.single("avatar"),
-  async (req, res) => {
-    req.user.avatar = req.file.buffer;
-    await req.user.save();
-    res.send();
-  },
-  (error, req, res, next) => {
-    res.status(400).send({ error: error.message });
-  }
-);
-
-// delete avatar
-router.delete("/users/me/avatar", auth, async (req, res) => {
-  req.user.avatar = undefined;
-  await req.user.save();
-  res.send();
-});
-
-// read avatar picture
-router.get("/users/:id/avatar", async (req, res) => {
-  try {
-    const user = await User.findByID(req.params.id);
-
-    if (!user || !user.avatar) {
-      throw new Error();
-    }
-
-    res.set("Content-Type", "image/jpg");
-    res.send(user.avatar);
-  } catch (error) {
-    res.status(404).send();
-  }
-});
-
-// delete a task
->>>>>>> 0b9de0df4f7615bfb2e58368524b2cfbeef2992f
 router.delete("/tasks/:id", auth, async (req, res) => {
   const _id = req.params.id;
 
